@@ -6,6 +6,8 @@
 	<title>Puls4:comunidad para gente atractiva y millonaria</title>
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/puls4.css">
+	<script src="js/jquery-2.1.4.min.js"></script>
+	
 
 </head>
 
@@ -27,6 +29,13 @@
 					Publicar
 				</a>
 			</div>
+
+			<div>
+				<a href="#12" class="sizer">A</a>
+				<a href="#16" class="sizer">A</a>
+				<a href="#22" class="sizer">A</a>
+			</div>
+
 		</div>
 
 			<div class="usuario ">
@@ -46,8 +55,22 @@
 			<li><a href="#">JavaScrip</a></li>
 			<li><a href="#">Django</a></li>
 			<li><a href="#">CSS3</a></li>
+
 		</ul>
 	</nav>
+	<form action="">
+		<p>
+		<label for="titulo">Titulo</label>
+		<input type="text" name="titulo" id="titulo"></p>
+		<p>
+		<label for="autor">Autor</label>
+		<input type="text" name="autor" id="autor"></p>
+		<p>
+		<label for="tag">Tag</label>
+		<input type="text" name="tag" id="tag"></p>
+		<input type="submit" value="publicar">
+	</form>
+
 	<section class="posts">
 		<article class="post">
 
@@ -326,10 +349,9 @@
 				</div>
 				<div class="datos">
 					<a class="comentarios" href="#">
-						10
+					10
 					</a>
-					<a href="#" class="estrellita">
-							
+					<a href="#" class="estrellita">		
 					</a>
 				</div>
 			</div>
@@ -348,6 +370,104 @@
 			</span>
 		</h3>
 	</footer>
+	
+	<script>
+	$(function(){
+		$('.publicar').on('click', mostrarFormulario);
+
+		function mostrarFormulario() {
+			$('form').slideToggle();
+		}
+
+		$('form').on('submit', procesarFormulario);
+
+		function procesarFormulario(ev) {
+			ev.preventDefault();
+			var titulo = $('input[name=titulo]').val();
+			var autor = $('input[name=autor]').val();
+			var tag = $('input[name=tag]').val();
+
+			var template = '<article class="post"> \
+				<div class="descripcion"> \
+					<figure class="imagen"> \
+						<img src="imagenes/foto.jpg" /> \
+					</figure> \
+					<div class="detalles"> \
+						<h2 class="titulo"> \
+							'+titulo+' \
+						</h2> \
+						<p class="autor"> \
+							por <a href="#">'+autor+'</a> \
+						</p> \
+						<a class="tag" href="#">'+tag+'</a> \
+						<p class="fecha">hace <strong>0</strong> min</p> \
+					</div> \
+				</div> \
+				<div class="acciones"> \
+					<div class="votos"> \
+						<a class="up" href="#"></a> \
+						<span class="total">0</span> \
+						<a class="down" href="#"></a> \
+					</div> \
+					<div class="datos"> \
+						<a class="comentarios" href="#"> \
+							0 \
+						</a> \
+						<a class="estrellita" href="#"></a> \
+					</div> \
+				</div> \
+			</article>';
+
+			$('.posts').prepend($(template).fadeIn(function(){
+				$(this).css('display','inline-block');
+			}));
+
+			$('input[type=text]').val('');
+			$('form').slideUp();
+		}
+		function crearSizer(pixels){
+			return function(){
+				$('body').css('font-size',pixels+'px')
+			}
+		}
+		$('.sizer').each(function(i , link){
+			var pixels = $(link).prop('hash').substring(1); //substring saca el 												el primer caracter
+			$(link)
+				.css('font-size',pixels+'px')
+				.on('click',crearSizer(pixels));
+
+
+		});  //la funcion each resive dos 
+												// resive dos parametros el indice en el que esta y si quieren resivir el elemento que esta en esa posicion piden el elemento	
+		function crearContador(valorInicial){
+			var contador = valorInicial || 0;
+			return{
+				up:function(){
+					return ++contador;
+				},
+				down:function(){
+					return --contador;
+				}
+			};
+
+		};
+
+		$('.total').each(function(i, elem){
+			var conTotal = crearContador(elem.innerHTML);
+			$(elem)								// a todos lo elemtos de padre 		 								.total, pedimos los hermanos
+				.siblings('.up')
+					.on('click',function(ev){
+						ev.preventDefault();
+						$(elem).html(conTotal.up());
+					})  
+				.siblings('.down')
+					.on('click',function(ev){
+						ev.preventDefault();
+						$(elem).html(conTotal.down());
+					});
+		});
+	});
+	</script>
 </body>
 
 </html>

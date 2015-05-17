@@ -23,6 +23,7 @@ body
 	color gris_oscuro
 	font-family Arial
 	font-size 16px
+	transition font-size 1s
 	
 footer
 	background naranja
@@ -48,8 +49,14 @@ footer
 		&:after
 			content"-"
 		
-		
-				
+form
+	padding 0.8em
+	display none
+	
+	label
+		display inline-block
+		width 60px
+					
 header
 	background gris_oscuro
 	box-shadow 0 5px 0 rgba(0,0,0,0.2)
@@ -89,10 +96,11 @@ header
 				margin 0 3px 0 0
 				font-family "icomoon"
 				content: "\e908"
-			
+		.sizer
+			text-decoration none
 			
 		.titulo
-			font-size 18px
+			font-size 1.1em
 			font-weight normal
 			margin 0
 			padding 0
